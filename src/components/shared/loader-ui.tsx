@@ -1,10 +1,7 @@
-import { LoaderIcon } from 'lucide-react';
-
 export function LoaderUI() {
-	// h-16 + 1 for border in navbar => 65px
 	return (
 		<div className="h-[calc(100vh-4rem-1px)] flex items-center justify-center">
-			<LoaderIcon className="h-8 w-8 animate-spin text-muted-foreground" />
+			<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
 		</div>
 	);
 }

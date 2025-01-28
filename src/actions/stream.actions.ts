@@ -6,7 +6,7 @@ import { StreamClient } from '@stream-io/node-sdk';
 // Константы для конфигурации
 const TOKEN_EXPIRATION = {
 	PRODUCTION: 5, // часов
-	DEVELOPMENT: 24, // часов
+	DEVELOPMENT: 2, // часов
 };
 
 export const streamTokenProvider = async () => {

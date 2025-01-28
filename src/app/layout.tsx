@@ -3,8 +3,10 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Navbar } from '@/components/shared';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
+import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './globals.css';
 import { RedirectToSignIn, SignedOut } from '@clerk/nextjs';
+import { Toaster } from 'react-hot-toast';
 
 const nunito = Nunito({
 	subsets: ['cyrillic', 'latin'],
@@ -40,6 +42,7 @@ export default function RootLayout({
 							<RedirectToSignIn />
 						</SignedOut>
 					</ThemeProvider>
+					<Toaster />
 				</body>
 			</html>
 		</ConvexClerkProvider>

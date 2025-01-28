@@ -1,6 +1,6 @@
 'use client';
 
-import { ActionCard, MeetingModal } from '@/components/shared';
+import { ActionCard, LoaderUI, MeetingModal } from '@/components/shared';
 import { useUserRole } from '@/hooks/use-user-role';
 import { QUICK_ACTIONS } from '@/lib/constants';
 import { useQuery } from 'convex/react';
@@ -31,13 +31,7 @@ export default function Home() {
 		}
 	}
 
-	if (isLoading) {
-		return (
-			<div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black/50">
-				<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500"></div>
-			</div>
-		);
-	}
+	if (isLoading) return <LoaderUI />;
 
 	return (
 		<div className="container max-w-7xl mx-auto p-6">
