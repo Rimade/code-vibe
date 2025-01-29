@@ -7,3 +7,4 @@ export { LoaderUI } from './loader-ui';
 export { ScreenLoaderUI } from './screen-loader-ui';
 export { MeetingSetup } from './meeting-setup';
 export { MeetingRoom } from './meeting-room';
+export { EndCallButton } from './end-call-button';

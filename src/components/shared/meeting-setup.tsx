@@ -6,32 +6,59 @@ import { useEffect, useState } from 'react';
 import { Switch } from '../ui/switch';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
+import { toast } from 'react-hot-toast';
 
 interface MeetingSetupProps {
 	onSetupComplete: () => void;
 }
 
+type DeviceState = {
+	camera: boolean;
+	mic: boolean;
+};
+
 export const MeetingSetup = ({ onSetupComplete }: MeetingSetupProps) => {
-	const [isCameraDisabled, setIsCameraDisabled] = useState(true);
-	const [isMicDisabled, setIsMicDisabled] = useState(false);
+	const [deviceState, setDeviceState] = useState<DeviceState>({
+		camera: true,
+		mic: true,
+	});
+	const [isJoining, setIsJoining] = useState(false);
 
 	const call = useCall();
 
 	if (!call) return null;
 
 	useEffect(() => {
-		if (isCameraDisabled) call.camera.disable();
-		else call.camera.enable();
-	}, [isCameraDisabled, call.camera]);
+		const toggleDevice = async (device: 'camera' | 'mic', enabled: boolean) => {
+			try {
+				if (device === 'camera') {
+					if (enabled) await call.camera.enable();
+					else await call.camera.disable();
+				} else {
+					if (enabled) await call.microphone.enable();
+					else await call.microphone.disable();
+				}
+			} catch (error) {
+				console.error(`Failed to toggle ${device}:`, error);
+				toast.error(`Failed to toggle ${device}`);
+			}
+		};
 
-	useEffect(() => {
-		if (isMicDisabled) call.microphone.disable();
-		else call.microphone.enable();
-	}, [isMicDisabled, call.microphone]);
+		toggleDevice('camera', !deviceState.camera);
+		toggleDevice('mic', !deviceState.mic);
+	}, [deviceState, call]);
 
 	const handleJoin = async () => {
-		await call.join();
-		onSetupComplete();
+		setIsJoining(true);
+		try {
+			await call.join();
+			onSetupComplete();
+		} catch (error) {
+			console.error('Failed to join meeting:', error);
+			toast.error('Failed to join meeting');
+		} finally {
+			setIsJoining(false);
+		}
 	};
 
 	return (
@@ -54,10 +81,9 @@ export const MeetingSetup = ({ onSetupComplete }: MeetingSetupProps) => {
 					</Card>
 
 					{/* CARD CONTROLS */}
-
 					<Card className="md:col-span-1 p-6">
 						<div className="h-full flex flex-col">
-							{/* MEETING DETAILS  */}
+							{/* MEETING DETAILS */}
 							<div>
 								<h2 className="text-xl font-semibold mb-1">Meeting Details</h2>
 								<p className="text-sm text-muted-foreground break-all">{call.id}</p>
@@ -74,13 +100,16 @@ export const MeetingSetup = ({ onSetupComplete }: MeetingSetupProps) => {
 											<div>
 												<p className="font-medium">Camera</p>
 												<p className="text-sm text-muted-foreground">
-													{isCameraDisabled ? 'Off' : 'On'}
+													{deviceState.camera ? 'Off' : 'On'}
 												</p>
 											</div>
 										</div>
 										<Switch
-											checked={!isCameraDisabled}
-											onCheckedChange={(checked) => setIsCameraDisabled(!checked)}
+											checked={!deviceState.camera}
+											onCheckedChange={(checked) =>
+												setDeviceState((prev) => ({ ...prev, camera: !checked }))
+											}
+											aria-label="Toggle camera"
 										/>
 									</div>
 
@@ -93,13 +122,16 @@ export const MeetingSetup = ({ onSetupComplete }: MeetingSetupProps) => {
 											<div>
 												<p className="font-medium">Microphone</p>
 												<p className="text-sm text-muted-foreground">
-													{isMicDisabled ? 'Off' : 'On'}
+													{deviceState.mic ? 'Off' : 'On'}
 												</p>
 											</div>
 										</div>
 										<Switch
-											checked={!isMicDisabled}
-											onCheckedChange={(checked) => setIsMicDisabled(!checked)}
+											checked={!deviceState.mic}
+											onCheckedChange={(checked) =>
+												setDeviceState((prev) => ({ ...prev, mic: !checked }))
+											}
+											aria-label="Toggle microphone"
 										/>
 									</div>
 
@@ -120,8 +152,12 @@ export const MeetingSetup = ({ onSetupComplete }: MeetingSetupProps) => {
 
 								{/* JOIN BTN */}
 								<div className="space-y-3 mt-8">
-									<Button className="w-full" size="lg" onClick={handleJoin}>
-										Join Meeting
+									<Button
+										className="w-full"
+										size="lg"
+										onClick={handleJoin}
+										disabled={isJoining}>
+										{isJoining ? 'Joining...' : 'Join Meeting'}
 									</Button>
 									<p className="text-xs text-center text-muted-foreground">
 										Do not worry, our team is super friendly! We want you to succeed. 🎉

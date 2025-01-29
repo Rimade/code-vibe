@@ -8,18 +8,18 @@ import {
 	SpeakerLayout,
 	useCallStateHooks,
 } from '@stream-io/video-react-sdk';
-import { LayoutListIcon, LoaderIcon, UsersIcon } from 'lucide-react';
+import { LayoutListIcon, UsersIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resizable';
+import { EndCallButton, ScreenLoaderUI } from '.';
+import { Button } from '../ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
-// import EndCallButton from './EndCallButton';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resizable';
 // import CodeEditor from '../CodeEditor';
 
 export function MeetingRoom() {
@@ -31,11 +31,7 @@ export function MeetingRoom() {
 	const callingState = useCallCallingState();
 
 	if (callingState !== CallingState.JOINED) {
-		return (
-			<div className="h-96 flex items-center justify-center">
-				<LoaderIcon className="size-6 animate-spin" />
-			</div>
-		);
+		return <ScreenLoaderUI />;
 	}
 
 	return (
@@ -86,7 +82,7 @@ export function MeetingRoom() {
 										<UsersIcon className="size-4" />
 									</Button>
 
-									{/* <EndCallButton /> */}
+									<EndCallButton />
 								</div>
 							</div>
 						</div>
