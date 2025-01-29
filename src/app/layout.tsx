@@ -1,17 +1,17 @@
+import ConvexClerkProvider from '@/components/providers/ConvexClerkProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { Navbar } from '@/components/shared';
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
-import { ClerkProvider } from '@clerk/nextjs';
+import { Nunito } from 'next/font/google';
+import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './globals.css';
+import { RedirectToSignIn, SignedOut } from '@clerk/nextjs';
+import { Toaster } from 'react-hot-toast';
 
-const geistSans = localFont({
-	src: './fonts/GeistVF.woff',
-	variable: '--font-geist-sans',
-	weight: '100 900',
-});
-const geistMono = localFont({
-	src: './fonts/GeistMonoVF.woff',
-	variable: '--font-geist-mono',
-	weight: '100 900',
+const nunito = Nunito({
+	subsets: ['cyrillic', 'latin'],
+	variable: '--font-nunito',
+	weight: ['400', '500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
@@ -25,12 +25,26 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-					{children}
+		<ConvexClerkProvider>
+			<html lang="en" suppressHydrationWarning>
+				<body className={`${nunito.className} antialiased`}>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange>
+						<div className="min-h-screen">
+							<Navbar />
+							<main className="px-4 sm:px-6 lg:px-8">{children}</main>
+						</div>
+
+						<SignedOut>
+							<RedirectToSignIn />
+						</SignedOut>
+					</ThemeProvider>
+					<Toaster />
 				</body>
 			</html>
-		</ClerkProvider>
+		</ConvexClerkProvider>
 	);
 }
