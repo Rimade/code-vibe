@@ -11,7 +11,7 @@ import {
 import { LayoutListIcon, UsersIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { EndCallButton, ScreenLoaderUI } from '.';
+
 import { Button } from '../ui/button';
 import {
 	DropdownMenu,
@@ -20,6 +20,7 @@ import {
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resizable';
+import { EndCallButton, ScreenLoaderUI } from '.';
 // import CodeEditor from '../CodeEditor';
 
 export function MeetingRoom() {
@@ -35,11 +36,11 @@ export function MeetingRoom() {
 	}
 
 	return (
-		<div className="h-[calc(100vh-4rem-1px)]">
+		<div className="h-screen">
 			<ResizablePanelGroup direction="horizontal">
 				<ResizablePanel defaultSize={35} minSize={25} maxSize={100} className="relative">
 					{/* VIDEO LAYOUT */}
-					<div className="absolute inset-0">
+					<div className="absolute inset-0 top-1 right-1">
 						{layout === 'grid' ? <PaginatedGridLayout /> : <SpeakerLayout />}
 
 						{/* PARTICIPANTS LIST OVERLAY */}

@@ -1,6 +1,7 @@
 import { SignedIn, UserButton } from '@clerk/nextjs';
 import { CodeIcon } from 'lucide-react';
 import Link from 'next/link';
+
 import { DashboardBtn, ModeToggle } from '.';
 
 export function Navbar() {

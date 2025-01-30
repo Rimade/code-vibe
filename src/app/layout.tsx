@@ -1,12 +1,14 @@
-import ConvexClerkProvider from '@/components/providers/ConvexClerkProvider';
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import { Navbar } from '@/components/shared';
-import type { Metadata } from 'next';
-import { Nunito } from 'next/font/google';
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 import './globals.css';
+
 import { RedirectToSignIn, SignedOut } from '@clerk/nextjs';
+import type { Metadata } from 'next';
+import { Nunito } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+
+import ConvexClerkProvider from '@/components/providers/ConvexClerkProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { NavbarWrapper } from '@/components/shared';
 
 const nunito = Nunito({
 	subsets: ['cyrillic', 'latin'],
@@ -34,7 +36,7 @@ export default function RootLayout({
 						enableSystem
 						disableTransitionOnChange>
 						<div className="min-h-screen">
-							<Navbar />
+							<NavbarWrapper />
 							<main className="px-4 sm:px-6 lg:px-8">{children}</main>
 						</div>
 

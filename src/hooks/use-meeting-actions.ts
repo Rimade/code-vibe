@@ -1,4 +1,5 @@
-import { useStreamVideoClient, Call } from '@stream-io/video-react-sdk';
+import type { Call } from '@stream-io/video-react-sdk';
+import { useStreamVideoClient } from '@stream-io/video-react-sdk';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 

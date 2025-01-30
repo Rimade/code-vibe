@@ -1,10 +1,13 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
-import { StreamVideoClient, StreamVideo } from '@stream-io/video-react-sdk';
 import { useUser } from '@clerk/nextjs';
-import { LoaderUI } from '../shared';
+import { StreamVideo,StreamVideoClient } from '@stream-io/video-react-sdk';
+import type { ReactNode} from 'react';
+import { useEffect, useState } from 'react';
+
 import { streamTokenProvider } from '@/actions/stream.actions';
+
+import { LoaderUI } from '../shared';
 
 const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
 	const [streamVideoClient, setStreamVideoClient] = useState<StreamVideoClient>();

@@ -3,10 +3,11 @@
 import { DeviceSettings, useCall, VideoPreview } from '@stream-io/video-react-sdk';
 import { CameraIcon, MicIcon, SettingsIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Switch } from '../ui/switch';
+import { toast } from 'react-hot-toast';
+
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import { toast } from 'react-hot-toast';
+import { Switch } from '../ui/switch';
 
 interface MeetingSetupProps {
 	onSetupComplete: () => void;

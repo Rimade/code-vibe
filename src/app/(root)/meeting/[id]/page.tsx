@@ -1,11 +1,12 @@
 'use client';
 
-import { LoaderUI, MeetingRoom, MeetingSetup } from '@/components/shared';
-import useGetCallById from '@/hooks/use-get-call-by-id';
 import { useUser } from '@clerk/nextjs';
 import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+
+import { LoaderUI, MeetingRoom, MeetingSetup } from '@/components/shared';
+import useGetCallById from '@/hooks/use-get-call-by-id';
 
 const MeetingPage = () => {
 	const { id } = useParams();

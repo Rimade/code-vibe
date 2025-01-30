@@ -1,4 +1,5 @@
-import { QuickActionType } from '@/lib/constants';
+import type { QuickActionType } from '@/lib/constants';
+
 import { Card } from '../ui/card';
 
 interface ActionCardProps {
